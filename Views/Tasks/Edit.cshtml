@@ -1,3 +1,4 @@
+@using TasksManager.Models
 @model TasksManager.Models.TaskItem
 
 @{
@@ -19,7 +20,16 @@
         <label asp-for="Description"></label>
         <textarea asp-for="Description" class="form-control"></textarea>
     </div>
-
+    <div class="form-group">
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId" class="form-control">
+            <option value="">-- Select a category --</option>
+            @foreach (var category in ViewBag.Categories as List<Category>)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select>
+    </div>
     <div class="form-group form-check">
         <input asp-for="IsCompleted" class="form-check-input" />
         <label asp-for="IsCompleted" class="form-check-label"></label>

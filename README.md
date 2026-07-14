@@ -36,7 +36,7 @@
     - Install tool ef  
     ```dotnet tool install --global dotnet-ef```      
     - Create the initial migration   
-    ```dotnet ef migrations add InitialCreate```
+    ```dotnet ef migrations add InitialCreate```   
     Done. To undo this action, use 'ef migrations remove'
     -  Apply the migration  
     ```dotnet ef database update```  
@@ -47,6 +47,10 @@
     
     ```dotnet aspnet-codegenerator identity -dc TasksManager.Data.ApplicationDbContext --files "Account.Register;Account.Login;Account.Logout"```   
 
-- Create a Migragtion
-```dotnet ef migrations add AddTaskModel```   
+## Migrations   
+- Create a Migragtion   
+```dotnet ef migrations add AddTaskModel```     
 ```dotnet ef database update```   
+
+- 
+```dotnet ef migrations add ShowPendingChanges```   

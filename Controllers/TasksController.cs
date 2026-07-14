@@ -30,8 +30,9 @@ namespace TasksManager.Controllers
             return View(tasks);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Categories = await _context.Categories.ToListAsync();
             return View();
         }
 
@@ -46,7 +47,7 @@ namespace TasksManager.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewBag.Categories = await _context.Categories.ToListAsync();
             return View(model);
         }
 
@@ -58,7 +59,8 @@ namespace TasksManager.Controllers
             var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
 
             if (task == null) return NotFound();
-
+            
+            ViewBag.Categories = await _context.Categories.ToListAsync();
             return View(task);
         }
 
@@ -79,11 +81,12 @@ namespace TasksManager.Controllers
                 existingTask.Description = model.Description;
                 existingTask.IsCompleted = model.IsCompleted;
                 existingTask.DueDate = model.DueDate;
+                existingTask.CategoryId = model.CategoryId;
 
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
+            ViewBag.Categories = await _context.Categories.ToListAsync();
             return View(model);
         }
 

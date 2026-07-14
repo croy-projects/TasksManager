@@ -18,5 +18,7 @@ namespace TasksManager.Models
         public DateTime? DueDate { get; set; }
 
         public string UserId { get; set; } = string.Empty;
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
     }
 }

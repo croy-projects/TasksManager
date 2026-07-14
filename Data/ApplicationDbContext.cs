@@ -11,6 +11,17 @@ namespace TasksManager.Data
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Work" },
+                new Category { Id = 2, Name = "Personal" },
+                new Category { Id = 3, Name = "Study" }
+            );
+        }
         public DbSet<TaskItem> Tasks { get; set; }
+        public DbSet<Category> Categories { get; set; }
     }
 }
