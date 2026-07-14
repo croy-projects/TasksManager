@@ -19,13 +19,47 @@ namespace TasksManager.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? categoryId, int? priorityId, bool? completed)
         {
             var userId = _userManager.GetUserId(User);
-            var tasks = await _context.Tasks
-                .Where(t => t.UserId == userId)
-                .OrderBy(t => t.DueDate)
-                .ToListAsync();
+
+            // var query = _context.Tasks
+            //     .Where(t => t.UserId == userId)
+            //     .Include(t => t.Category)
+            //     .Include(t => t.Priority);
+
+            IQueryable<TaskItem> query = _context.Tasks
+                .Include(t => t.Category)
+                .Include(t => t.Priority)
+                .Where(t => t.UserId == userId);
+
+            if (categoryId.HasValue)
+            {
+                query = query.Where(t => t.CategoryId == categoryId.Value);
+            }
+
+            if (priorityId.HasValue)
+            {
+                query = query.Where(t => t.PriorityId == priorityId.Value);
+            }
+
+            if (completed.HasValue)
+            {
+                query = query.Where(t => t.IsCompleted == completed.Value);
+            }
+
+            ViewBag.Categories = await _context.Categories.ToListAsync();
+            ViewBag.Priorities = await _context.Priorities.ToListAsync();
+            ViewBag.SelectedCategoryId = categoryId;
+            ViewBag.SelectedPriorityId = priorityId;
+            ViewBag.SelectedCompleted = completed;
+
+            var tasks = await query.OrderBy(t => t.DueDate).ToListAsync();
+
+            // var tasks = await _context.Tasks
+            //     .Where(t => t.UserId == userId)
+            //     .OrderBy(t => t.DueDate)
+            //     .ToListAsync();
 
             return View(tasks);
         }
@@ -61,7 +95,7 @@ namespace TasksManager.Controllers
             var task = await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
 
             if (task == null) return NotFound();
-            
+
             ViewBag.Categories = await _context.Categories.ToListAsync();
             ViewBag.Priorities = await _context.Priorities.ToListAsync();
             return View(task);

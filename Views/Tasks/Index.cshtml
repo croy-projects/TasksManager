@@ -1,3 +1,4 @@
+@using TasksManager.Models
 @model IEnumerable<TasksManager.Models.TaskItem>
 
 @{
@@ -10,10 +11,52 @@
     <a class="btn btn-primary" asp-action="Create">Create New Task</a>
 </p>
 
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <select name="categoryId" class="form-select">
+            <option value="">All categories</option>
+            @foreach (var category in ViewBag.Categories as List<Category>)
+            {
+
+                <option value="@category.Id" selected="@(ViewBag.SelectedCategoryId == category.Id)">
+                    @category.Name
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <select name="priorityId" class="form-select">
+            <option value="">All priorities</option>
+            @foreach (var priority in ViewBag.Priorities as List<Priority>)
+            {
+                <option value="@priority.Id" selected="@(ViewBag.SelectedPriorityId == priority.Id)"">
+                    @priority.Name
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class=" col-md-3">
+        <select name="completed" class="form-select">
+            <option value="">All statuses</option>
+            <option value="false" selected="@(ViewBag.SelectedCompleted == false)">Pending</option>
+            <option value="true" selected="@(ViewBag.SelectedCompleted == true)">Completed</option>
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a asp-action="Index" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
+
 <table class="table table-striped">
     <thead>
         <tr>
             <th>Title</th>
+            <th>Category</th>
+            <th>Priority</th>
             <th>Due Date</th>
             <th>Status</th>
             <th></th>
@@ -24,6 +67,8 @@
         {
             <tr>
                 <td>@item.Title</td>
+                <td>@(item.Category?.Name ?? "-")</td>
+                <td>@(item.Priority?.Name ?? "-")</td>
                 <td>@(item.DueDate?.ToShortDateString() ?? "-")</td>
                 <td>@(item.IsCompleted ? "Completed" : "Pending")</td>
                 <td>
