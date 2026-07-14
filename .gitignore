@@ -1,0 +1,26 @@
+# Build output
+bin/
+obj/
+
+# Local databases
+# *.db-shm and *.db-wal are SQLite journal files
+*.db
+*.db-shm
+*.db-wal
+
+# User-specific files
+*.user
+*.suo
+
+# Visual Studio and VS Code settings
+.vs/
+.vscode/
+
+# Frontend libraries and generated assets
+wwwroot/lib/
+wwwroot/dist/
+wwwroot/uploads/
+
+# Local secrets and environment-specific settings
+appsettings.Development.json
+secrets.json

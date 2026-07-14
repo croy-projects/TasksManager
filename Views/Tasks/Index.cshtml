@@ -1,0 +1,36 @@
+@model IEnumerable<TasksManager.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "My Tasks";
+}
+
+<h2>My Tasks</h2>
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Create New Task</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Title</td>
+                <td>@(item.DueDate?.ToShortDateString() ?? "-")</td>
+                <td>@(item.IsCompleted ? "Completed" : "Pending")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
