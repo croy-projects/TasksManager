@@ -20,5 +20,8 @@ namespace TasksManager.Models
         public string UserId { get; set; } = string.Empty;
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }
+        public int? PriorityId { get; set; }
+        public Priority? Priority { get; set; }
+
     }
 }

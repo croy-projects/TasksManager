@@ -20,8 +20,15 @@ namespace TasksManager.Data
                 new Category { Id = 2, Name = "Personal" },
                 new Category { Id = 3, Name = "Study" }
             );
+
+            builder.Entity<Priority>().HasData(
+                new Priority { Id = 1, Name = "Low" },
+                new Priority { Id = 2, Name = "Medium" },
+                new Priority { Id = 3, Name = "High" }
+            );
         }
         public DbSet<TaskItem> Tasks { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Priority> Priorities { get; set; }
     }
 }

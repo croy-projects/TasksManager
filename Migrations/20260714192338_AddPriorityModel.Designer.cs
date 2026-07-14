@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TasksManager.Data;
 
@@ -10,9 +11,11 @@ using TasksManager.Data;
 namespace TasksManager.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260714192338_AddPriorityModel")]
+    partial class AddPriorityModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.9");
@@ -258,23 +261,6 @@ namespace TasksManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Priorities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Low"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Medium"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "High"
-                        });
                 });
 
             modelBuilder.Entity("TasksManager.Models.TaskItem", b =>
