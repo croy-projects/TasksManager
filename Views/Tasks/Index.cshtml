@@ -44,13 +44,18 @@
             <option value="true" selected="@(ViewBag.SelectedCompleted == true)">Completed</option>
         </select>
     </div>
-
     <div class="col-md-3">
         <button type="submit" class="btn btn-primary">Filter</button>
         <a asp-action="Index" class="btn btn-secondary">Reset</a>
     </div>
 </form>
-
+<form asp-action="Index" method="get" class="mb-3">
+    <div class="input-group">
+        <input type="text" name="search" class="form-control" placeholder="Search tasks..." value="@ViewBag.search" />
+        <button type="submit" class="btn btn-primary">Search</button>
+        <a asp-action="Index" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
 <table class="table table-striped">
     <thead>
         <tr>

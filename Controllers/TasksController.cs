@@ -19,7 +19,7 @@ namespace TasksManager.Controllers
             _userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(int? categoryId, int? priorityId, bool? completed)
+        public async Task<IActionResult> Index(int? categoryId, int? priorityId, bool? completed, string? search)
         {
             var userId = _userManager.GetUserId(User);
 
@@ -32,6 +32,11 @@ namespace TasksManager.Controllers
                 .Include(t => t.Category)
                 .Include(t => t.Priority)
                 .Where(t => t.UserId == userId);
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                query = query.Where(t => t.Title.Contains(search) || t.Description.Contains(search));
+            }
 
             if (categoryId.HasValue)
             {
@@ -53,6 +58,7 @@ namespace TasksManager.Controllers
             ViewBag.SelectedCategoryId = categoryId;
             ViewBag.SelectedPriorityId = priorityId;
             ViewBag.SelectedCompleted = completed;
+            ViewBag.search = search;
 
             var tasks = await query.OrderBy(t => t.DueDate).ToListAsync();
 
