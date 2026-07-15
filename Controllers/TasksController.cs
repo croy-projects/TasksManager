@@ -63,7 +63,26 @@ namespace TasksManager.Controllers
 
             return View(tasks);
         }
+        public async Task<IActionResult> Dashboard()
+        {
+            var userId = _userManager.GetUserId(User);
 
+            var tasks = await _context.Tasks
+                .Where(t => t.UserId == userId)
+                .ToListAsync();
+
+            var totalTasks = tasks.Count;
+            var completedTasks = tasks.Count(t => t.IsCompleted);
+            var pendingTasks = totalTasks - completedTasks;
+            var overdueTasks = tasks.Count(t => !t.IsCompleted && t.DueDate < DateTime.Today);
+
+            ViewBag.TotalTasks = totalTasks;
+            ViewBag.CompletedTasks = completedTasks;
+            ViewBag.PendingTasks = pendingTasks;
+            ViewBag.OverdueTasks = overdueTasks;
+
+            return View();
+        }
         public async Task<IActionResult> Create()
         {
             ViewBag.Categories = await _context.Categories.ToListAsync();
